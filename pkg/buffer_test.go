@@ -12,23 +12,13 @@ import (
 
 func BenchmarkBuffer_AddByAppend(b *testing.B) {
 	buffer := NewBuffer(100)
-	temp := []int{}
 	for i := 0; i < b.N; i++ {
-		temp = append(temp, i)
-	}
-	b.ResetTimer() // Start timing after setup is complete
-	for i := 0; i < b.N; i++ {
-		buffer.AddByAppend(temp[i])
+		buffer.AddByAppend(i)
 	}
 }
 
 func BenchmarkBuffer_AddByShift(b *testing.B) {
 	buffer := NewBuffer(100)
-	temp := []int{}
-	for i := 0; i < b.N; i++ {
-		temp = append(temp, i)
-	}
-	b.ResetTimer() // Start timing after setup is complete
 	for i := 0; i < b.N; i++ {
 		buffer.AddByShift(i)
 	}
@@ -53,7 +43,7 @@ func TestBuffer_AddByAppend(t *testing.T) {
 		buffer.AddByAppend(i)
 	}
 	for i := 0; i < bufferSize; i++ {
-		fmt.Printf("%d ", buffer.data[i])
+		fmt.Printf("%d ", buffer.Data[i])
 	}
 	fmt.Println()
 	// test AddByShift
@@ -62,7 +52,7 @@ func TestBuffer_AddByAppend(t *testing.T) {
 		buffer.AddByShift(i)
 	}
 	for i := 0; i < bufferSize; i++ {
-		fmt.Printf("%d ", buffer.data[i])
+		fmt.Printf("%d ", buffer.Data[i])
 	}
 	fmt.Println()
 	// test BatchAdd
@@ -73,7 +63,7 @@ func TestBuffer_AddByAppend(t *testing.T) {
 	}
 	buffer.BatchAdd(temp)
 	for i := 0; i < bufferSize; i++ {
-		fmt.Printf("%d ", buffer.data[i])
+		fmt.Printf("%d ", buffer.Data[i])
 	}
 	fmt.Println()
 }

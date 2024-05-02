@@ -8,22 +8,23 @@ package pkg
 // Buffer
 // @Description: a buffer that stores int
 type Buffer struct {
-	data []int
-	size int // size of the buffer
+	Data []int
+	Sum  int
+	Size int // Size of the buffer
 }
 
 // NewBuffer
 //
 //	@Description: creates a new Buffer
-//	@param size
+//	@param Size
 //	@return *Buffer
 func NewBuffer(size int) *Buffer {
 	if size == 0 {
-		panic("size cannot be 0")
+		panic("Size cannot be 0")
 	}
 	return &Buffer{
-		data: make([]int, size),
-		size: size,
+		Data: make([]int, size),
+		Size: size,
 	}
 }
 
@@ -33,9 +34,9 @@ func NewBuffer(size int) *Buffer {
 //	@receiver b
 //	@param value
 func (b *Buffer) AddByAppend(value int) {
-	b.data = append(b.data, value)
-	if len(b.data) > b.size {
-		b.data = b.data[1:]
+	b.Data = append(b.Data, value)
+	if len(b.Data) > b.Size {
+		b.Data = b.Data[1:]
 	}
 }
 
@@ -51,31 +52,40 @@ func (b *Buffer) BatchAdd(values []int) {
 		return
 	}
 	// take the last n elements
-	if newSize >= b.size {
-		for i := 0; i < b.size; i++ {
-			b.data[i] = values[i+newSize-b.size]
+	if newSize >= b.Size {
+		for i := 0; i < b.Size; i++ {
+			b.Data[i] = values[i+newSize-b.Size]
 		}
 		return
 	}
-	// shift existing data
-	shift := b.size - newSize
+	// shift existing Data
+	shift := b.Size - newSize
 	for i := 0; i < shift; i++ {
-		b.data[i] = b.data[i+newSize]
+		b.Data[i] = b.Data[i+newSize]
 	}
 	// set new values
 	for i := 0; i < newSize; i++ {
-		b.data[newSize+i] = values[i]
+		b.Data[newSize+i] = values[i]
 	}
 }
 
+// AddByShift
+//
+//	@Description: add a value to the buffer by shifting
+//	@receiver b
+//	@param value
 func (b *Buffer) AddByShift(value int) {
-	size := len(b.data)
+	size := len(b.Data)
 	if size == 0 {
 		// do nothing
 		return
 	}
-	for i := 0; i < b.size-1; i++ {
-		b.data[i] = b.data[i+1]
+	for i := 0; i < b.Size-1; i++ {
+		b.Data[i] = b.Data[i+1]
 	}
-	b.data[b.size-1] = value
+	b.Data[b.Size-1] = value
+}
+
+func (b *Buffer) GetData() []int {
+	return b.Data
 }
