@@ -35,7 +35,11 @@ func NewBuffer(size int) *Buffer {
 //	@param value
 func (b *Buffer) AddByAppend(value int) {
 	b.Data = append(b.Data, value)
+	// add the new value
+	b.Sum += value
 	if len(b.Data) > b.Size {
+		// subtract the value to be removed first
+		b.Sum -= b.Data[0]
 		b.Data = b.Data[1:]
 	}
 }
@@ -51,21 +55,26 @@ func (b *Buffer) BatchAdd(values []int) {
 		// nothing to add
 		return
 	}
+	// reset sum
+	b.Sum = 0
 	// take the last n elements
 	if newSize >= b.Size {
 		for i := 0; i < b.Size; i++ {
 			b.Data[i] = values[i+newSize-b.Size]
+			b.Sum += values[i+newSize-b.Size]
 		}
 		return
 	}
 	// shift existing Data
 	shift := b.Size - newSize
-	for i := 0; i < shift; i++ {
-		b.Data[i] = b.Data[i+newSize]
+	for i := 0; i < newSize; i++ {
+		b.Sum += b.Data[i+shift]
+		b.Data[i] = b.Data[i+shift]
 	}
 	// set new values
 	for i := 0; i < newSize; i++ {
-		b.Data[newSize+i] = values[i]
+		b.Sum += values[i]
+		b.Data[i+shift] = values[i]
 	}
 }
 
@@ -80,10 +89,14 @@ func (b *Buffer) AddByShift(value int) {
 		// do nothing
 		return
 	}
+	// subtract the value to be removed
+	b.Sum -= b.Data[0]
 	for i := 0; i < b.Size-1; i++ {
 		b.Data[i] = b.Data[i+1]
 	}
 	b.Data[b.Size-1] = value
+	// add the new value
+	b.Sum += value
 }
 
 func (b *Buffer) GetData() []int {
