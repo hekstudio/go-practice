@@ -80,9 +80,9 @@ func TestBuffer_AddByAppend2(t *testing.T) {
 			buffer.AddByAppend(i)
 		}
 		for i := 0; i < bufferSize; i++ {
-			fmt.Printf("%d ", buffer.Data[i])
+			fmt.Printf("%3d ", buffer.Data[i])
 		}
-		fmt.Printf("sum: %d\n", buffer.Sum)
+		fmt.Printf("sum: %5d\n", buffer.Sum)
 		fmt.Println()
 		// test AddByShift
 		buffer = NewBuffer(bufferSize)
@@ -90,9 +90,9 @@ func TestBuffer_AddByAppend2(t *testing.T) {
 			buffer.AddByShift(i)
 		}
 		for i := 0; i < bufferSize; i++ {
-			fmt.Printf("%d ", buffer.Data[i])
+			fmt.Printf("%3d ", buffer.Data[i])
 		}
-		fmt.Printf("sum: %d\n", buffer.Sum)
+		fmt.Printf("sum: %5d\n", buffer.Sum)
 		fmt.Println()
 		// test BatchAdd
 		buffer = NewBuffer(bufferSize)
@@ -102,9 +102,9 @@ func TestBuffer_AddByAppend2(t *testing.T) {
 		}
 		buffer.BatchAdd(temp)
 		for i := 0; i < bufferSize; i++ {
-			fmt.Printf("%d ", buffer.Data[i])
+			fmt.Printf("%3d ", buffer.Data[i])
 		}
-		fmt.Printf("sum: %d\n", buffer.Sum)
-		fmt.Println("----------------------------------------")
+		fmt.Printf("sum: %5d\n", buffer.Sum)
+		fmt.Println("---------------------------------------------")
 	}
 }
