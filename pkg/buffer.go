@@ -7,6 +7,8 @@ package pkg
 
 // Buffer
 // @Description: a buffer that stores int
+// NOTE: assuming all values are non zeros
+// zero values are interpreted as empty
 type Buffer struct {
 	Data []int
 	Sum  int
@@ -99,6 +101,23 @@ func (b *Buffer) AddByShift(value int) {
 	b.Sum += value
 }
 
-func (b *Buffer) GetData() []int {
-	return b.Data
+// IsFilled
+//
+//	@Description: check if the buffer is filled
+//	this is used to determine if the buffer is ready for calculation
+//	element is only allowed to be pushed in with non-zero values from end of the buffer
+//	1st element is the oldest, so checking if the buffer is filled means checking if the 1st element is non-zero
+//	@receiver b
+//	@return bool
+func (b *Buffer) IsFilled() bool {
+	return b.Data[0] != 0
+}
+
+// Reset
+//
+//	@Description: reset the buffer
+//	@receiver b
+func (b *Buffer) Reset() {
+	b.Data = make([]int, b.Size)
+	b.Sum = 0
 }
