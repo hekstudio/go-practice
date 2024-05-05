@@ -20,5 +20,10 @@ func ReadIntDirectly(data int) int {
 //	@param data
 //	@return int
 func ReadIntFromInterface(data interface{}) int {
-	return data.(int)
+	switch data.(type) {
+	case int:
+		return data.(int)
+	default:
+		return 0
+	}
 }
