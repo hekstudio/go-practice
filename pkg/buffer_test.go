@@ -11,21 +11,21 @@ import (
 )
 
 func BenchmarkBuffer_AddByAppend(b *testing.B) {
-	buffer := NewBuffer(100)
+	buffer := NewBufferInt(100)
 	for i := 0; i < b.N; i++ {
 		buffer.AddByAppend(i)
 	}
 }
 
 func BenchmarkBuffer_AddByShift(b *testing.B) {
-	buffer := NewBuffer(100)
+	buffer := NewBufferInt(100)
 	for i := 0; i < b.N; i++ {
 		buffer.AddByShift(i)
 	}
 }
 
 func BenchmarkBuffer_BatchAdd(b *testing.B) {
-	buffer := NewBuffer(100)
+	buffer := NewBufferInt(100)
 	var temp []int
 	for i := 0; i < b.N; i++ {
 		temp = append(temp, i)
@@ -37,7 +37,7 @@ func BenchmarkBuffer_BatchAdd(b *testing.B) {
 func TestBuffer_AddByAppend1(t *testing.T) {
 	bufferSize := 335
 	newSize := 334
-	buffer := NewBuffer(bufferSize)
+	buffer := NewBufferInt(bufferSize)
 	// test AddByAppend
 	for i := 0; i < newSize; i++ {
 		buffer.AddByAppend(i)
@@ -48,7 +48,7 @@ func TestBuffer_AddByAppend1(t *testing.T) {
 	fmt.Printf("sum: %d\n", buffer.Sum)
 	fmt.Println()
 	// test AddByShift
-	buffer = NewBuffer(bufferSize)
+	buffer = NewBufferInt(bufferSize)
 	for i := 0; i < newSize; i++ {
 		buffer.AddByShift(i)
 	}
@@ -58,7 +58,7 @@ func TestBuffer_AddByAppend1(t *testing.T) {
 	fmt.Printf("sum: %d\n", buffer.Sum)
 	fmt.Println()
 	// test BatchAdd
-	buffer = NewBuffer(bufferSize)
+	buffer = NewBufferInt(bufferSize)
 	var temp []int
 	for i := 0; i < newSize; i++ {
 		temp = append(temp, i)
@@ -74,7 +74,7 @@ func TestBuffer_AddByAppend1(t *testing.T) {
 func TestBuffer_AddByAppend2(t *testing.T) {
 	bufferSize := 10
 	for newSize := 0; newSize < 30; newSize++ {
-		buffer := NewBuffer(bufferSize)
+		buffer := NewBufferInt(bufferSize)
 		// test AddByAppend
 		for i := 0; i < newSize; i++ {
 			buffer.AddByAppend(i)
@@ -85,7 +85,7 @@ func TestBuffer_AddByAppend2(t *testing.T) {
 		fmt.Printf("sum: %5d\n", buffer.Sum)
 		fmt.Println()
 		// test AddByShift
-		buffer = NewBuffer(bufferSize)
+		buffer = NewBufferInt(bufferSize)
 		for i := 0; i < newSize; i++ {
 			buffer.AddByShift(i)
 		}
@@ -95,7 +95,7 @@ func TestBuffer_AddByAppend2(t *testing.T) {
 		fmt.Printf("sum: %5d\n", buffer.Sum)
 		fmt.Println()
 		// test BatchAdd
-		buffer = NewBuffer(bufferSize)
+		buffer = NewBufferInt(bufferSize)
 		var temp []int
 		for i := 0; i < newSize; i++ {
 			temp = append(temp, i)

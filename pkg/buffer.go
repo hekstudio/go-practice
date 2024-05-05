@@ -15,12 +15,12 @@ type Buffer struct {
 	Size int // Size of the buffer
 }
 
-// NewBuffer
+// NewBufferInt
 //
 //	@Description: creates a new Buffer
 //	@param Size
 //	@return *Buffer
-func NewBuffer(size int) *Buffer {
+func NewBufferInt(size int) *Buffer {
 	if size == 0 {
 		panic("Size cannot be 0")
 	}
